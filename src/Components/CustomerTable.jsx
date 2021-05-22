@@ -9,12 +9,29 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyle = makeStyles({
+  container: {
+    maxHeight: 440,
+  },
+  containerClass: {
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  hoverClass: {
+    cursor: "pointer",
+  },
+});
 
 function CustomerTable({ rows, columns, tableType, sortingOn }) {
+  const styleClass = useStyle();
+
   return (
     <>
-      <TableContainer>
-        <Table>
+      <TableContainer className={styleClass.container}>
+        <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               {columns.map((col) => {
@@ -25,7 +42,7 @@ function CustomerTable({ rows, columns, tableType, sortingOn }) {
                 >
                   {col.id === "bidValue" || col.id === "amount" ? (
                     <>
-                      <TableSortLabel>{col.label}</TableSortLabel>
+                      <TableSortLabel active>{col.label}</TableSortLabel>
                     </>
                   ) : (
                     <>{col.label}</>
@@ -38,8 +55,16 @@ function CustomerTable({ rows, columns, tableType, sortingOn }) {
             {tableType === "Merchant List" &&
               rows.map((row) => {
                 return (
-                  <TableRow key={row.id} hover>
-                    <TableCell component="th" scope="row">
+                  <TableRow
+                    key={row.id}
+                    hover
+                    className={styleClass.hoverClass}
+                  >
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      className={styleClass.containerClass}
+                    >
                       <Avatar alt={row.name} src={row.avatarUrl} />
                       <div>&nbsp;&nbsp;{row.name}</div>
                     </TableCell>

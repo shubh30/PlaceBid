@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Switch, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import CustomerTable from "../Components/CustomerTable";
+
+const useStyle = makeStyles({
+  gridClass: {
+    display: "flex",
+    justifyContent: "flex-end",
+    marginBottom: 15,
+  },
+});
 
 const HomeView = () => {
   const [merchantData, setMerchantData] = useState([]);
   const [isShowMaxFirst, setIsShowMaxFirst] = useState(true);
   const [tableData, setTableData] = useState([]);
+
+  const styleClass = useStyle();
 
   const getMaximumBidFirst = (data) => {
     if (data.length > 0) {
@@ -68,7 +79,13 @@ const HomeView = () => {
 
   return (
     <>
-      <Grid component="label" container alignItems="center" spacing={1}>
+      <Grid
+        component="label"
+        container
+        alignItems="center"
+        spacing={1}
+        className={styleClass.gridClass}
+      >
         <Grid item>
           <Typography>Min</Typography>
         </Grid>
