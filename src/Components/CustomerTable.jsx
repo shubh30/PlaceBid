@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Table,
@@ -8,6 +8,7 @@ import {
   TableSortLabel,
   TableHead,
   TableRow,
+  TablePagination,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -26,7 +27,19 @@ const useStyle = makeStyles({
 });
 
 function CustomerTable({ rows, columns, tableType, sortingOn }) {
+  const [pagination, setPagination] = useState(0);
+  const [pageSize, setPageSize] = useState(5);
+
   const styleClass = useStyle();
+
+  const handleChangePage = (event, newPage) => {
+    setPagination(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setPageSize(+event.target.value);
+    setPagination(0);
+  };
 
   return (
     <>
@@ -53,30 +66,41 @@ function CustomerTable({ rows, columns, tableType, sortingOn }) {
           </TableHead>
           <TableBody>
             {tableType === "Merchant List" &&
-              rows.map((row) => {
-                return (
-                  <TableRow
-                    key={row.id}
-                    hover
-                    className={styleClass.hoverClass}
-                  >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      className={styleClass.containerClass}
+              rows
+                .slice(pagination * pageSize, pagination * pageSize + pageSize)
+                .map((row) => {
+                  return (
+                    <TableRow
+                      key={row.id}
+                      hover
+                      className={styleClass.hoverClass}
                     >
-                      <Avatar alt={row.name} src={row.avatarUrl} />
-                      <div>&nbsp;&nbsp;{row.name}</div>
-                    </TableCell>
-                    <TableCell>{row.email}</TableCell>
-                    <TableCell>{row.phone}</TableCell>
-                    <TableCell>{row.bidValue}</TableCell>
-                  </TableRow>
-                );
-              })}
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        className={styleClass.containerClass}
+                      >
+                        <Avatar alt={row.name} src={row.avatarUrl} />
+                        <div>&nbsp;&nbsp;{row.name}</div>
+                      </TableCell>
+                      <TableCell>{row.email}</TableCell>
+                      <TableCell>{row.phone}</TableCell>
+                      <TableCell>{row.bidValue}</TableCell>
+                    </TableRow>
+                  );
+                })}
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 50, 100]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={pageSize}
+        page={pagination}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </>
   );
 }
