@@ -87,7 +87,7 @@ const HomeView = () => {
         className={styleClass.gridClass}
       >
         <Grid item>
-          <Typography>Min</Typography>
+          <Typography>Minimum Bid</Typography>
         </Grid>
         <Grid item>
           <Switch
@@ -98,7 +98,7 @@ const HomeView = () => {
           />
         </Grid>
         <Grid item>
-          <Typography>Max</Typography>
+          <Typography>Maximum Bid</Typography>
         </Grid>
         <CustomerTable
           rows={merchantData}
