@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { Grid, Switch, Typography } from "@material-ui/core";
+import CustomerTable from "../Components/CustomerTable";
 
 const HomeView = () => {
   const [merchantData, setMerchantData] = useState([]);
-  const [isShowMaxFirst, setIsShowMaxFirst] = useState(false);
+  const [isShowMaxFirst, setIsShowMaxFirst] = useState(true);
+  const [tableData, setTableData] = useState([]);
 
   const getMaximumBidFirst = (data) => {
     if (data.length > 0) {
@@ -44,20 +47,50 @@ const HomeView = () => {
         });
 
         setMerchantData([...merchData]);
+
+        if (isShowMaxFirst) {
+          setTableData([
+            { id: "customer_name", label: "Customer Name", minWidth: 200 },
+            { id: "email", label: "Email" },
+            { id: "phone", label: "Phone" },
+            { id: "bidValue", label: "Max Bid" },
+          ]);
+        } else {
+          setTableData([
+            { id: "customer_name", label: "Customer Name", minWidth: 200 },
+            { id: "email", label: "Email" },
+            { id: "phone", label: "Phone" },
+            { id: "bidValue", label: "Min Bid" },
+          ]);
+        }
       });
   }, [isShowMaxFirst]);
 
   return (
-    <div>
-      {merchantData?.map((data) => {
-        return (
-          <div>
-            <p>{data.name}</p>
-            <p>{data.bidValue}</p>
-          </div>
-        );
-      })}
-    </div>
+    <>
+      <Grid component="label" container alignItems="center" spacing={1}>
+        <Grid item>
+          <Typography>Min</Typography>
+        </Grid>
+        <Grid item>
+          <Switch
+            color="primary"
+            checked={isShowMaxFirst}
+            onChange={() => setIsShowMaxFirst(!isShowMaxFirst)}
+            name="toggle"
+          />
+        </Grid>
+        <Grid item>
+          <Typography>Max</Typography>
+        </Grid>
+        <CustomerTable
+          rows={merchantData}
+          columns={tableData}
+          sortingOn="bidValue"
+          tableType="Merchant List"
+        />
+      </Grid>
+    </>
   );
 };
 
