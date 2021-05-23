@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Avatar,
   Paper,
@@ -36,6 +37,8 @@ function CustomerTable({ rows, columns, tableType, sortingOn }) {
   const [sortOrder, setSortOrder] = useState("asc");
 
   const styleClass = useStyle();
+
+  let history = useHistory();
 
   const handleChangePage = (event, newPage) => {
     setPagination(newPage);
@@ -94,6 +97,10 @@ function CustomerTable({ rows, columns, tableType, sortingOn }) {
     }
   };
 
+  const getUserDetails = (id) => {
+    history.push(`/${id}`);
+  };
+
   return (
     <Paper className={styleClass.root}>
       {sortData(sortingOn, sortOrder) && (
@@ -138,6 +145,7 @@ function CustomerTable({ rows, columns, tableType, sortingOn }) {
                           key={row.id}
                           hover
                           className={styleClass.hoverClass}
+                          onClick={() => getUserDetails(row.id)}
                         >
                           <TableCell
                             component="th"
