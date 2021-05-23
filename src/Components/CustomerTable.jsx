@@ -161,6 +161,23 @@ function CustomerTable({ rows, columns, tableType, sortingOn }) {
                         </TableRow>
                       );
                     })}
+                {tableType === "Merchant Details List" &&
+                  rows
+                    .slice(
+                      pagination * pageSize,
+                      pagination * pageSize + pageSize
+                    )
+                    .map((row) => {
+                      return (
+                        <TableRow key={row.id}>
+                          <TableCell component="th" scope="row">
+                            {row.carTitle}
+                          </TableCell>
+                          <TableCell>{row.amount}</TableCell>
+                          <TableCell>{row.created}</TableCell>
+                        </TableRow>
+                      );
+                    })}
               </TableBody>
             </Table>
           </TableContainer>
