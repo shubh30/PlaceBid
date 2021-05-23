@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CustomerTable from "../Components/CustomerTable";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Avatar,
   Card,
@@ -11,12 +12,33 @@ import {
   Typography,
 } from "@material-ui/core";
 
+const useStyle = makeStyles({
+  root: {
+    flexGrow: 1,
+  },
+  gridClass: {
+    marginTop: 50,
+  },
+  spanClass: {
+    fontWeight: 500,
+    color: "rgba(0, 0, 0, 0.87)",
+  },
+  paper: {
+    textAlign: "center",
+  },
+  title: {
+    fontSize: 14,
+  },
+});
+
 function CustomerDetails() {
   const [rows, setRows] = useState([]);
   const [columns, setColumns] = useState([]);
   const [userDetails, setUserDetails] = useState(null);
 
   let { id } = useParams();
+
+  const styleClass = useStyle();
 
   const formatDate = (value) => {
     const dateObject = new Date(parseInt(value));
@@ -64,13 +86,13 @@ function CustomerDetails() {
 
   return (
     <>
-      <div>
+      <div className={styleClass.gridClass}>
         <Grid container spacing={3}>
           {userDetails && (
             <>
               <Grid item xs={12} sm={4}>
                 <Paper>
-                  <Card variant="outlined">
+                  <Card variant="outlined" className={styleClass.root}>
                     <CardHeader
                       avatar={
                         <Avatar
@@ -82,11 +104,19 @@ function CustomerDetails() {
                       subHeader={`${userDetails.email}`}
                     />
                     <CardContent>
-                      <Typography color="textSecondary" gutterBottom>
+                      <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        className={styleClass.title}
+                      >
                         Phone: <span>{userDetails.phone}</span>
                       </Typography>
                       <br />
-                      <Typography color="textSecondary" gutterBottom>
+                      <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        className={styleClass.title}
+                      >
                         Total Bids: <span>{rows.length}</span>
                       </Typography>
                     </CardContent>
