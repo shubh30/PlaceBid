@@ -18,6 +18,19 @@ function CustomerDetails() {
 
   let { id } = useParams();
 
+  const formatDate = (value) => {
+    const dateObject = new Date(parseInt(value));
+
+    const date = dateObject.getDay().toString();
+    const month = dateObject.getMonth() + 1;
+    const year = dateObject.getFullYear();
+    const hours = dateObject.getHours() + 1;
+    const minutes = dateObject.getMinutes() + 1;
+    const seconds = dateObject.getSeconds() + 1;
+
+    return `${date}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  };
+
   useEffect(() => {
     fetch(`https://intense-tor-76305.herokuapp.com/merchants/${id}`)
       .then((response) => response.json())
@@ -28,7 +41,7 @@ function CustomerDetails() {
               id: value.id,
               carTitle: value.carTitle,
               amount: value.amount,
-              created: value.created,
+              created: formatDate(value.created),
             };
           });
           setUserDetails({
